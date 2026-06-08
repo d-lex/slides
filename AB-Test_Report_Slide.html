@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>AB Test Final Slide</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <style>
 body{
     background:#f1f5f9;
@@ -95,6 +96,8 @@ canvas{
 </div>
 
 <script>
+Chart.register(ChartDataLabels);
+
 new Chart(document.getElementById('overallChart'),{
  type:'bar',
  data:{
@@ -107,7 +110,16 @@ new Chart(document.getElementById('overallChart'),{
  options:{
    responsive:true,
    maintainAspectRatio:false,
-   plugins:{legend:{display:false}},
+   plugins:{
+      legend:{display:false},
+      datalabels:{
+         anchor:'end',
+         align:'top',
+         color:'#334155',
+         formatter:(value)=> value + '%',
+         font:{weight:'bold',size:12}
+      }
+   },
    scales:{
       y:{beginAtZero:true,max:20,title:{display:true,text:'Конверсия (%)'},ticks:{stepSize:2,callback:v=>v}}
    }
@@ -119,14 +131,28 @@ new Chart(document.getElementById('deviceChart'),{
  data:{
    labels:['A Mobile','B Mobile','A Desktop','B Desktop'],
    datasets:[{
-      data:[18.18,15.0,5.13,0.0],
+      data:[18.18,15.0,5.13,0.01],
       backgroundColor:['#ef4444','#3b82f6','#84cc16','#cbd5e1']
    }]
  },
  options:{
    responsive:true,
    maintainAspectRatio:false,
-   plugins:{legend:{display:false}},
+   plugins:{
+      legend:{display:false},
+      datalabels:{
+         anchor:'end',
+         align:'top',
+         color:'#334155',
+         formatter:(value, context)=> context.dataIndex===3 ? '0%' : value + '%',
+         font:{weight:'bold',size:11}
+      },
+      tooltip:{
+         callbacks:{
+            label:(context)=> context.dataIndex===3 ? '0%' : context.parsed.y + '%'
+         }
+      }
+   },
    scales:{
       y:{
          beginAtZero:true,
