@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>AB Test Final Slide</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body{
+    background:#f1f5f9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+    font-family:Arial,sans-serif;
+}
+.slide{
+    width:960px;
+    height:540px;
+    background:white;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    padding:40px;
+    box-sizing:border-box;
+}
+h1{
+    font-size:32px;
+    color:#1e293b;
+    margin:0;
+    border-bottom:2px solid #e2e8f0;
+    padding-bottom:15px;
+}
+.text-block{
+    font-size:16px;
+    color:#475569;
+    background:#f8fafc;
+    padding:15px;
+    border-left:4px solid #3b82f6;
+    margin:18px 0;
+}
+.charts-container{
+    display:flex;
+    gap:28px;
+    height:250px;
+}
+.chart-box{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+.chart-box.large{
+    flex:1.4;
+}
+.chart-title{
+    font-weight:bold;
+    color:#334155;
+    text-align:center;
+    margin-bottom:8px;
+}
+.action-block{
+    margin-top:30px;
+    font-size:16px;
+    color:#475569;
+    background:#f8fafc;
+    padding:12px;
+    border-left:4px solid #ef4444;
+}
+canvas{
+    flex:1;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+    <h1>A/B-тест: анализ конверсии</h1>
+
+    <div class="text-block">
+        <b>Вывод:</b> Версия сайта B побеждает - 12% конверсии в покупку против 8% у версии A (рост конверсии +50%). Однако трафик распределен неравномерно (A: 78% Desktop, 22% Mobile / B: 20% Desktop, 80% Mobile). Конверсия Mobile в среднем выше Desktop, поэтому группа B побеждает за счёт состава, а не качества версии.
+    </div>
+
+    <div class="charts-container">
+        <div class="chart-box">
+            <div class="chart-title">Общая конверсия A vs B</div>
+            <canvas id="overallChart"></canvas>
+        </div>
+
+        <div class="chart-box large">
+            <div class="chart-title">Конверсия по устройствам</div>
+            <canvas id="deviceChart"></canvas>
+        </div>
+    </div>
+
+    <div class="action-block">
+        <b>Рекомендация:</b> Не принимать решение о запуске версии B на основании текущего теста.
+    </div>
+</div>
+
+<script>
+new Chart(document.getElementById('overallChart'),{
+ type:'bar',
+ data:{
+   labels:['A','B'],
+   datasets:[{
+      data:[8,12],
+      backgroundColor:['#ef4444','#3b82f6']
+   }]
+ },
+ options:{
+   responsive:true,
+   maintainAspectRatio:false,
+   plugins:{legend:{display:false}},
+   scales:{
+      y:{beginAtZero:true,max:20,title:{display:true,text:'Конверсия (%)'},ticks:{stepSize:2,callback:v=>v}}
+   }
+ }
+});
+
+new Chart(document.getElementById('deviceChart'),{
+ type:'bar',
+ data:{
+   labels:['A Mobile','B Mobile','A Desktop','B Desktop'],
+   datasets:[{
+      data:[18.18,15.0,5.13,0.0],
+      backgroundColor:['#ef4444','#3b82f6','#84cc16','#cbd5e1']
+   }]
+ },
+ options:{
+   responsive:true,
+   maintainAspectRatio:false,
+   plugins:{legend:{display:false}},
+   scales:{
+      y:{
+         beginAtZero:true,
+         title:{display:true,text:'Конверсия (%)'}
+      }
+   }
+ }
+});
+</script>
+</body>
+</html>
