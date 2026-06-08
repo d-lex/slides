@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Q2 Report Slide v2 - Restyled</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body {
+    background-color:#f1f5f9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+    font-family:Arial,sans-serif;
+}
+.slide{
+    width:960px;
+    height:540px;
+    background:white;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    padding:40px;
+    box-sizing:border-box;
+}
+h1{
+    font-size:32px;
+    color:#1e293b;
+    margin-top:0;
+    border-bottom:2px solid #e2e8f0;
+    padding-bottom:15px;
+    margin-bottom:20px;
+}
+.text-block{
+    font-size:16px;
+    color:#475569;
+    background:#f8fafc;
+    padding:15px;
+    border-left:4px solid #3b82f6;
+    margin-bottom:20px;
+}
+.charts-container{
+    display:flex;
+    gap:30px;
+    height:250px;
+}
+.chart-box{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.chart-title{
+    font-weight:bold;
+    color:#334155;
+    margin-bottom:10px;
+}
+.action-block{
+    margin-top:4px;
+    font-size:16px;
+    color:#475569;
+    background:#f8fafc;
+    padding:12px;
+    border-left:4px solid #ef4444;
+}
+canvas{max-height:210px;}
+</style>
+</head>
+<body>
+<div class="slide">
+<h1>Влияние релиза «Покупка в 1 клик» на конвесрию (Q2)</h1>
+
+<div class="text-block">
+<b>Вывод:</b> После релиза в июне мобильная конверсия снизилась с 10.5% до 5% (−52%), а количество ошибок выросло с 180 до 3500 (более чем в 19 раз). Desktop-метрики остались стабильными, что указывает на локализацию проблемы в Mobile.
+</div>
+
+<div class="charts-container">
+    <div class="chart-box">
+        <div class="chart-title">Конверсия по платформам (%)</div>
+        <canvas id="crChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <div class="chart-title">Ошибки по платформам</div>
+        <canvas id="errChart"></canvas>
+    </div>
+</div>
+
+<div class="action-block">
+<b>Рекомендация:</b> Рассмотреть возможность временно откатить релиз «Покупка в 1 клик» на Mobile и провести root-cause анализ.
+</div>
+</div>
+
+<script>
+const months=['Апрель','Май','Июнь'];
+
+new Chart(document.getElementById('crChart'),{
+ type:'line',
+ data:{
+  labels:months,
+  datasets:[
+   {label:'Desktop',data:[15,15,15],borderColor:'#10b981',borderWidth:3,tension:0.1},
+   {label:'Mobile',data:[10,10.5,5],borderColor:'#ef4444',borderWidth:3,tension:0.1}
+  ]
+ },
+ options:{
+  responsive:true,
+  maintainAspectRatio:false,
+  scales:{
+    y:{
+      beginAtZero:true,
+      max:20
+    }
+  }
+}
+});
+
+new Chart(document.getElementById('errChart'),{
+ type:'bar',
+ data:{
+  labels:months,
+  datasets:[
+   {label:'Desktop',data:[120,130,140],backgroundColor:'#10b981'},
+   {label:'Mobile',data:[150,180,3500],backgroundColor:'#ef4444'}
+  ]
+ },
+ options:{
+  responsive:true,
+  maintainAspectRatio:false,
+  scales:{
+    y:{
+      beginAtZero:true,
+      max:4500
+    }
+  }
+}
+});
+</script>
+</body>
+</html>
